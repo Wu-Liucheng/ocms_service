@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.Project">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="managerId" jdbcType="BIGINT" property="managerId" />
+    <result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="endDate" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="clientId" jdbcType="BIGINT" property="clientId" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <association property="client" column="clientId" select="com.ocms.dao.ClientMapper.selectByPrimaryKey"></association>
+    <association property="manager" column="managerId" select="com.ocms.dao.ManagerMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, number, managerId, startDate, endDate, status, clientId, createdBy, createDate, 
+    lastUpdateBy, lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from object
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from object where
+    `number` = #{number , jdbcType = VARCHAR};
+  </select>
+  <select id="selectOnePage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from object
+    order by id desc
+    limit #{start,jdbcType=INTEGER},6
+  </select>
+  <select id="selectOnePageAboutHim" parameterType="Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from object
+    where managerId = #{managerId,jdbcType = BIGINT}
+    order by id desc
+    limit #{start,jdbcType=INTEGER},6
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(id) from object
+  </select>
+  <select id="countAboutOneManager" parameterType="java.lang.Long" resultType = "java.lang.Integer">
+    select count(id) from object where managerId = #{managerId,jdbcType = BIGINT};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from object
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.Project">
+    insert into object (id, name, number, 
+      managerId, startDate, endDate, 
+      status, clientId, createdBy, 
+      createDate, lastUpdateBy, lastUpdateDate
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+      #{managerId,jdbcType=BIGINT}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{clientId,jdbcType=BIGINT}, #{createdBy,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.Project">
+    insert into object
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="managerId != null">
+        managerId,
+      </if>
+      <if test="startDate != null">
+        startDate,
+      </if>
+      <if test="endDate != null">
+        endDate,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="clientId != null">
+        clientId,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.Project">
+    update object
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="managerId != null">
+        managerId = #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="startDate != null">
+        startDate = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        endDate = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="clientId != null">
+        clientId = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.Project">
+    update object
+    set name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      managerId = #{managerId,jdbcType=BIGINT},
+      startDate = #{startDate,jdbcType=TIMESTAMP},
+      endDate = #{endDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      clientId = #{clientId,jdbcType=BIGINT},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

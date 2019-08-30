@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.ResumeMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.Resume">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="idNumber" jdbcType="VARCHAR" property="idNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="employYears" jdbcType="VARCHAR" property="employYears" />
+    <result column="goodAt" jdbcType="VARCHAR" property="goodAt" />
+    <result column="estimateLevel" jdbcType="VARCHAR" property="estimateLevel" />
+    <result column="planDate" jdbcType="TIMESTAMP" property="planDate" />
+    <result column="communicateDate" jdbcType="TIMESTAMP" property="communicateDate" />
+    <result column="isBeingUsed" jdbcType="BIT" property="isBeingUsed" />
+    <result column="communicatePerson" jdbcType="VARCHAR" property="communicatePerson" />
+    <result column="employNumber" jdbcType="VARCHAR" property="employNumber" />
+    <result column="idealSalary" jdbcType="INTEGER" property="idealSalary" />
+    <result column="birth" jdbcType="TIMESTAMP" property="birth" />
+    <result column="degree" jdbcType="VARCHAR" property="degree" />
+    <result column="priceUnit" jdbcType="VARCHAR" property="priceUnit" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="otherInfo" jdbcType="VARCHAR" property="otherInfo" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, mobile, idNumber, name, email, qq, employYears, goodAt, estimateLevel, planDate, 
+    communicateDate, isBeingUsed, communicatePerson, employNumber, idealSalary, birth, 
+    degree, priceUnit, school, sex, location, otherInfo, createdBy, createDate, lastUpdateBy, 
+    lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resume
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from resume
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from resume
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.Resume">
+    insert into resume (id, mobile, idNumber, 
+      name, email, qq, employYears, 
+      goodAt, estimateLevel, planDate, 
+      communicateDate, isBeingUsed, communicatePerson, 
+      employNumber, idealSalary, birth, 
+      degree, priceUnit, school, 
+      sex, location, otherInfo, 
+      createdBy, createDate, lastUpdateBy, 
+      lastUpdateDate)
+    values (#{id,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{employYears,jdbcType=VARCHAR}, 
+      #{goodAt,jdbcType=VARCHAR}, #{estimateLevel,jdbcType=VARCHAR}, #{planDate,jdbcType=TIMESTAMP}, 
+      #{communicateDate,jdbcType=TIMESTAMP}, #{isBeingUsed,jdbcType=BIT}, #{communicatePerson,jdbcType=VARCHAR}, 
+      #{employNumber,jdbcType=VARCHAR}, #{idealSalary,jdbcType=INTEGER}, #{birth,jdbcType=TIMESTAMP}, 
+      #{degree,jdbcType=VARCHAR}, #{priceUnit,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=BIT}, #{location,jdbcType=VARCHAR}, #{otherInfo,jdbcType=VARCHAR}, 
+      #{createdBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.Resume">
+    insert into resume
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="idNumber != null">
+        idNumber,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="employYears != null">
+        employYears,
+      </if>
+      <if test="goodAt != null">
+        goodAt,
+      </if>
+      <if test="estimateLevel != null">
+        estimateLevel,
+      </if>
+      <if test="planDate != null">
+        planDate,
+      </if>
+      <if test="communicateDate != null">
+        communicateDate,
+      </if>
+      <if test="isBeingUsed != null">
+        isBeingUsed,
+      </if>
+      <if test="communicatePerson != null">
+        communicatePerson,
+      </if>
+      <if test="employNumber != null">
+        employNumber,
+      </if>
+      <if test="idealSalary != null">
+        idealSalary,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="degree != null">
+        degree,
+      </if>
+      <if test="priceUnit != null">
+        priceUnit,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="otherInfo != null">
+        otherInfo,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="employYears != null">
+        #{employYears,jdbcType=VARCHAR},
+      </if>
+      <if test="goodAt != null">
+        #{goodAt,jdbcType=VARCHAR},
+      </if>
+      <if test="estimateLevel != null">
+        #{estimateLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null">
+        #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communicateDate != null">
+        #{communicateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBeingUsed != null">
+        #{isBeingUsed,jdbcType=BIT},
+      </if>
+      <if test="communicatePerson != null">
+        #{communicatePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="employNumber != null">
+        #{employNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idealSalary != null">
+        #{idealSalary,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null">
+        #{priceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfo != null">
+        #{otherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.Resume">
+    update resume
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        idNumber = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="employYears != null">
+        employYears = #{employYears,jdbcType=VARCHAR},
+      </if>
+      <if test="goodAt != null">
+        goodAt = #{goodAt,jdbcType=VARCHAR},
+      </if>
+      <if test="estimateLevel != null">
+        estimateLevel = #{estimateLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null">
+        planDate = #{planDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="communicateDate != null">
+        communicateDate = #{communicateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBeingUsed != null">
+        isBeingUsed = #{isBeingUsed,jdbcType=BIT},
+      </if>
+      <if test="communicatePerson != null">
+        communicatePerson = #{communicatePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="employNumber != null">
+        employNumber = #{employNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idealSalary != null">
+        idealSalary = #{idealSalary,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="degree != null">
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null">
+        priceUnit = #{priceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfo != null">
+        otherInfo = #{otherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.Resume">
+    update resume
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      employYears = #{employYears,jdbcType=VARCHAR},
+      goodAt = #{goodAt,jdbcType=VARCHAR},
+      estimateLevel = #{estimateLevel,jdbcType=VARCHAR},
+      planDate = #{planDate,jdbcType=TIMESTAMP},
+      communicateDate = #{communicateDate,jdbcType=TIMESTAMP},
+      isBeingUsed = #{isBeingUsed,jdbcType=BIT},
+      communicatePerson = #{communicatePerson,jdbcType=VARCHAR},
+      employNumber = #{employNumber,jdbcType=VARCHAR},
+      idealSalary = #{idealSalary,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=TIMESTAMP},
+      degree = #{degree,jdbcType=VARCHAR},
+      priceUnit = #{priceUnit,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      location = #{location,jdbcType=VARCHAR},
+      otherInfo = #{otherInfo,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.MessageFromCheckerToManagerMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.MessageFromCheckerToManager">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="demandId" jdbcType="BIGINT" property="demandId" />
+    <result column="checkerId" jdbcType="BIGINT" property="checkerId" />
+    <result column="managerId" jdbcType="BIGINT" property="managerId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="isRead" jdbcType="BIT" property="isRead" />
+    <result column="examineStatus" jdbcType="BIT" property="examineStatus" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, demandId, checkerId, managerId, content, isRead, examineStatus, createDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from messagefromcheckertomanager
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from messagefromcheckertomanager
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.MessageFromCheckerToManager">
+    insert into messagefromcheckertomanager (id, demandId, checkerId, 
+      managerId, content, isRead, 
+      examineStatus, createDate)
+    values (#{id,jdbcType=BIGINT}, #{demandId,jdbcType=BIGINT}, #{checkerId,jdbcType=BIGINT}, 
+      #{managerId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{isRead,jdbcType=BIT}, 
+      #{examineStatus,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.MessageFromCheckerToManager">
+    insert into messagefromcheckertomanager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="demandId != null">
+        demandId,
+      </if>
+      <if test="checkerId != null">
+        checkerId,
+      </if>
+      <if test="managerId != null">
+        managerId,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="isRead != null">
+        isRead,
+      </if>
+      <if test="examineStatus != null">
+        examineStatus,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="demandId != null">
+        #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerId != null">
+        #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null">
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null">
+        #{isRead,jdbcType=BIT},
+      </if>
+      <if test="examineStatus != null">
+        #{examineStatus,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.MessageFromCheckerToManager">
+    update messagefromcheckertomanager
+    <set>
+      <if test="demandId != null">
+        demandId = #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerId != null">
+        checkerId = #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null">
+        managerId = #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null">
+        isRead = #{isRead,jdbcType=BIT},
+      </if>
+      <if test="examineStatus != null">
+        examineStatus = #{examineStatus,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.MessageFromCheckerToManager">
+    update messagefromcheckertomanager
+    set demandId = #{demandId,jdbcType=BIGINT},
+      checkerId = #{checkerId,jdbcType=BIGINT},
+      managerId = #{managerId,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      isRead = #{isRead,jdbcType=BIT},
+      examineStatus = #{examineStatus,jdbcType=BIT},
+      createDate = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

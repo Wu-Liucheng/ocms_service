@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.CorporationAdminMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.CorporationAdmin">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="loginName" jdbcType="VARCHAR" property="loginName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="clientId" jdbcType="BIGINT" property="clientId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, loginName, password, email, mobile, clientId, name, createdBy, lastUpdateBy, lastUpdateDate,
+    createDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from corporationadmin
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from corporationadmin where loginName = #{loginName,jdbcType=VARCHAR};
+  </select>
+  <select id="selectByLoginNameAndClientId" parameterType="Map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from corporationadmin where loginName = #{loginName,jdbcType=VARCHAR} and clientId = #{clientId,jdbcType = BIGINT};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from corporationadmin
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.CorporationAdmin">
+    insert into corporationadmin (id, loginName, password, 
+      email, mobile, clientId,
+      name, createdBy, lastUpdateBy, 
+      lastUpdateDate, createDate)
+    values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{clientId,jdbcType=BIGINT},
+      #{name,jdbcType=VARCHAR}, #{createdBy,jdbcType=BIGINT}, #{lastUpdateBy,jdbcType=BIGINT}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.CorporationAdmin">
+    insert into corporationadmin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="loginName != null">
+        loginName,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="clientId != null">
+        clientId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.CorporationAdmin">
+    update corporationadmin
+    <set>
+      <if test="loginName != null">
+        loginName = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null">
+        clientId = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.CorporationAdmin">
+    update corporationadmin
+    set loginName = #{loginName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      clientId = #{clientId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      createDate = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

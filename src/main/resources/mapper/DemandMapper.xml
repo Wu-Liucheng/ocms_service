@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.DemandMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.Demand">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="consultantRole" jdbcType="BIGINT" property="consultantRole" />
+    <result column="type" jdbcType="BIGINT" property="type" />
+    <result column="modular" jdbcType="VARCHAR" property="modular" />
+    <result column="employTime" jdbcType="VARCHAR" property="employTime" />
+    <result column="workAddress" jdbcType="VARCHAR" property="workAddress" />
+    <result column="isBoard" jdbcType="BIT" property="isBoard" />
+    <result column="startDate" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="cycle" jdbcType="VARCHAR" property="cycle" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="priceFluctuation" javaType="INTEGER" property="priceFluctuation"/>
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="priceUnit" jdbcType="VARCHAR" property="priceUnit" />
+    <result column="examineId" jdbcType="BIGINT" property="examineId" />
+    <result column="examineStatus" jdbcType="INTEGER" property="examineStatus" />
+    <result column="processNodeId" jdbcType="BIGINT" property="processNodeId" />
+    <result column="objectId" jdbcType="BIGINT" property="objectId" />
+    <result column="releaseTime" jdbcType="TIMESTAMP" property="releaseTime" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <association property="project" column="objectId" select="com.ocms.dao.ProjectMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, number, status, description, consultantRole, type, modular, employTime, 
+    workAddress, isBoard, startDate, cycle, duration,priceFluctuation, price, priceUnit, examineId, examineStatus,
+    processNodeId, objectId, releaseTime, createdBy, createDate, lastUpdateBy, lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from demand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectLatestDemand"  resultMap="BaseResultMap">
+    select * from demand where status = 1 and examineStatus = 1 order by releaseTime desc limit 12
+  </select>
+  <select id="selectFourDemand" resultMap="BaseResultMap">
+    select * from demand where status = 1 and examineStatus = 1 order by releaseTime desc limit 4
+  </select>
+  <select id="countOfSelectAll" resultType="java.lang.Integer">
+    select count(*) from demand where status = 1 and examineStatus = 1 order by releaseTime desc;
+  </select>
+  <select id="selectByNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from demand where `number` = #{number,jdbcType=VARCHAR};
+  </select>
+  <select id="selectWithConditions" parameterType="Map" resultMap="BaseResultMap">
+    select  * from demand where 1=1
+    <if test="type != null">
+      and type = #{type,jdbcType = BIGINT}
+    </if>
+     <if test="employTime != null">
+       and employTime = #{employTime,jdbcType = VARCHAR}
+     </if>
+    order by releaseTime desc
+  </select>
+  <select id="getDemandApplyForChecker" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from demand where objectId in (
+    select id from object where clientId in (
+    select clientId from processnode where checkerId = #{checkerId,jdbcType = BIGINT}))
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from demand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.Demand">
+    insert into demand (id, name, number, 
+      status, description, consultantRole, 
+      type, modular, employTime, 
+      workAddress, isBoard, startDate, 
+      cycle, duration,priceFluctuation, price,
+      priceUnit, examineId, examineStatus, 
+      processNodeId, objectId, releaseTime, 
+      createdBy, createDate, lastUpdateBy, 
+      lastUpdateDate)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{consultantRole,jdbcType=BIGINT}, 
+      #{type,jdbcType=BIGINT}, #{modular,jdbcType=VARCHAR}, #{employTime,jdbcType=VARCHAR}, 
+      #{workAddress,jdbcType=VARCHAR}, #{isBoard,jdbcType=BIT}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{cycle,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR},#{priceFluctuation,jdbcType=INTEGER}, #{price,jdbcType=INTEGER},
+      #{priceUnit,jdbcType=VARCHAR}, #{examineId,jdbcType=BIGINT}, #{examineStatus,jdbcType=INTEGER}, 
+      #{processNodeId,jdbcType=BIGINT}, #{objectId,jdbcType=BIGINT}, #{releaseTime,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.Demand">
+    insert into demand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="consultantRole != null">
+        consultantRole,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="modular != null">
+        modular,
+      </if>
+      <if test="employTime != null">
+        employTime,
+      </if>
+      <if test="workAddress != null">
+        workAddress,
+      </if>
+      <if test="isBoard != null">
+        isBoard,
+      </if>
+      <if test="startDate != null">
+        startDate,
+      </if>
+      <if test="cycle != null">
+        cycle,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="priceFluctuation != null">
+        priceFluctuation,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="priceUnit != null">
+        priceUnit,
+      </if>
+      <if test="examineId != null">
+        examineId,
+      </if>
+      <if test="examineStatus != null">
+        examineStatus,
+      </if>
+      <if test="processNodeId != null">
+        processNodeId,
+      </if>
+      <if test="objectId != null">
+        objectId,
+      </if>
+      <if test="releaseTime != null">
+        releaseTime,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantRole != null">
+        #{consultantRole,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="modular != null">
+        #{modular,jdbcType=VARCHAR},
+      </if>
+      <if test="employTime != null">
+        #{employTime,jdbcType=VARCHAR},
+      </if>
+      <if test="workAddress != null">
+        #{workAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoard != null">
+        #{isBoard,jdbcType=BIT},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycle != null">
+        #{cycle,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="priceFluctuation != null">
+        #{priceFluctuation,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="priceUnit != null">
+        #{priceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="examineId != null">
+        #{examineId,jdbcType=BIGINT},
+      </if>
+      <if test="examineStatus != null">
+        #{examineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="processNodeId != null">
+        #{processNodeId,jdbcType=BIGINT},
+      </if>
+      <if test="objectId != null">
+        #{objectId,jdbcType=BIGINT},
+      </if>
+      <if test="releaseTime != null">
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.Demand">
+    update demand
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="consultantRole != null">
+        consultantRole = #{consultantRole,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="modular != null">
+        modular = #{modular,jdbcType=VARCHAR},
+      </if>
+      <if test="employTime != null">
+        employTime = #{employTime,jdbcType=VARCHAR},
+      </if>
+      <if test="workAddress != null">
+        workAddress = #{workAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoard != null">
+        isBoard = #{isBoard,jdbcType=BIT},
+      </if>
+      <if test="startDate != null">
+        startDate = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cycle != null">
+        cycle = #{cycle,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="priceFluctuation != null">
+        priceFluctuation = #{priceFluctuation,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="priceUnit != null">
+        priceUnit = #{priceUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="examineId != null">
+        examineId = #{examineId,jdbcType=BIGINT},
+      </if>
+      <if test="examineStatus != null">
+        examineStatus = #{examineStatus,jdbcType=INTEGER},
+      </if>
+      <if test="processNodeId != null">
+        processNodeId = #{processNodeId,jdbcType=BIGINT},
+      </if>
+      <if test="objectId != null">
+        objectId = #{objectId,jdbcType=BIGINT},
+      </if>
+      <if test="releaseTime != null">
+        releaseTime = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.Demand">
+    update demand
+    set name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      consultantRole = #{consultantRole,jdbcType=BIGINT},
+      type = #{type,jdbcType=BIGINT},
+      modular = #{modular,jdbcType=VARCHAR},
+      employTime = #{employTime,jdbcType=VARCHAR},
+      workAddress = #{workAddress,jdbcType=VARCHAR},
+      isBoard = #{isBoard,jdbcType=BIT},
+      startDate = #{startDate,jdbcType=TIMESTAMP},
+      cycle = #{cycle,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      priceFluctuation = #{priceFluctuation,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      priceUnit = #{priceUnit,jdbcType=VARCHAR},
+      examineId = #{examineId,jdbcType=BIGINT},
+      examineStatus = #{examineStatus,jdbcType=INTEGER},
+      processNodeId = #{processNodeId,jdbcType=BIGINT},
+      objectId = #{objectId,jdbcType=BIGINT},
+      releaseTime = #{releaseTime,jdbcType=TIMESTAMP},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

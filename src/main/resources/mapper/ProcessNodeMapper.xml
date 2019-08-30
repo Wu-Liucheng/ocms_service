@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.ProcessNodeMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.ProcessNode">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="clientId" jdbcType="BIGINT" property="clientId" />
+    <result column="checkerId" jdbcType="BIGINT" property="checkerId" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <association property="client" column="clientId" select="com.ocms.dao.ClientMapper.selectByPrimaryKey"></association>
+    <association property="checker" column="checkerId" select="com.ocms.dao.CheckerMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, clientId, checkerId, createDate, createBy
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from processnode
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectSelective" parameterType="com.ocms.entities.ProcessNode" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from processnode
+    where clientId = #{clientId,jdbcType=BIGINT} and checkerId = #{checkerId,jdbcType=BIGINT}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(id) from processnode
+  </select>
+  <select id="selectOnePage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from processnode
+    limit #{start,jdbcType=INTEGER},6
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from processnode
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteSelective" parameterType="com.ocms.entities.ProcessNode">
+    delete from processnode
+    where clientId = #{clientId,jdbcType=BIGINT} and checkerId = #{checkerId,jdbcType = BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.ProcessNode">
+    insert into processnode (id, clientId, checkerId, 
+      createDate, createBy)
+    values (#{id,jdbcType=BIGINT}, #{clientId,jdbcType=BIGINT}, #{checkerId,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.ProcessNode">
+    insert into processnode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clientId != null">
+        clientId,
+      </if>
+      <if test="checkerId != null">
+        checkerId,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerId != null">
+        #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.ProcessNode">
+    update processnode
+    <set>
+      <if test="clientId != null">
+        clientId = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="checkerId != null">
+        checkerId = #{checkerId,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.ProcessNode">
+    update processnode
+    set clientId = #{clientId,jdbcType=BIGINT},
+      checkerId = #{checkerId,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      createBy = #{createBy,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

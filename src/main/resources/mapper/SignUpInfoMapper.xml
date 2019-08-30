@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.SignUpInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.SignUpInfo">
+    <id column="userId" jdbcType="BIGINT" property="userId" />
+    <id column="demandId" jdbcType="BIGINT" property="demandId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <association property="demand" column="demandId" select="com.ocms.dao.DemandMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    userId, demandId, status, createdBy, createDate, lastUpdateBy, lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.ocms.entities.SignUpInfoKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from signup
+    where userId = #{userId,jdbcType=BIGINT}
+      and demandId = #{demandId,jdbcType=BIGINT}
+  </select>
+  <select id="getNumberOfSignUp" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select count(*) from signup
+    where demandId = #{demandId,jdbcType=BIGINT}
+    and status = 1
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from signup
+    where userId = #{userId,jdbcType=BIGINT}
+    and status = 1 order by createDate desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ocms.entities.SignUpInfoKey">
+    delete from signup
+    where userId = #{userId,jdbcType=BIGINT}
+      and demandId = #{demandId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.SignUpInfo">
+    insert into signup (userId, demandId, status, 
+      createdBy, createDate, lastUpdateBy, 
+      lastUpdateDate)
+    values (#{userId,jdbcType=BIGINT}, #{demandId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{createdBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.SignUpInfo">
+    insert into signup
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="demandId != null">
+        demandId,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="demandId != null">
+        #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.SignUpInfo">
+    update signup
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+      and demandId = #{demandId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.SignUpInfo">
+    update signup
+    set status = #{status,jdbcType=INTEGER},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where userId = #{userId,jdbcType=BIGINT}
+      and demandId = #{demandId,jdbcType=BIGINT}
+  </update>
+</mapper>

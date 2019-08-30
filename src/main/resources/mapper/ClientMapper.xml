@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.ClientMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.Client">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customerNumber" jdbcType="VARCHAR" property="customerNumber" />
+    <result column="isDel" jdbcType="BIT" property="isDel" />
+    <result column="corporateName" jdbcType="VARCHAR" property="corporateName" />
+    <result column="corporateAddress" jdbcType="VARCHAR" property="corporateAddress" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="contactsTel" jdbcType="VARCHAR" property="contactsTel" />
+    <result column="contactsEmail" jdbcType="VARCHAR" property="contactsEmail" />
+    <result column="isEffective" jdbcType="BIT" property="isEffective" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="invoiceCustomerName" jdbcType="VARCHAR" property="invoiceCustomerName" />
+    <result column="taxPayerIdentificationNum" jdbcType="VARCHAR" property="taxPayerIdentificationNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="bank" jdbcType="VARCHAR" property="bank" />
+    <result column="bankAccount" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="createdBy" jdbcType="BIGINT" property="createdBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, customerNumber, isDel, corporateName, corporateAddress, contacts, contactsTel, 
+    contactsEmail, isEffective, introduction, invoiceCustomerName, taxPayerIdentificationNum, 
+    address, telephone, bank, bankAccount, summary, createdBy, createDate, lastUpdateBy, 
+    lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from client
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id,customerNumber,corporateName,contacts,contactsTel,contactsEmail from client;
+  </select>
+  <select id="selectByCustomerNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from client
+    where customerNumber = #{customerNumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from client
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.Client">
+    insert into client (id, customerNumber, isDel, 
+      corporateName, corporateAddress, contacts, 
+      contactsTel, contactsEmail, isEffective, 
+      introduction, invoiceCustomerName, taxPayerIdentificationNum, 
+      address, telephone, bank, 
+      bankAccount, summary, createdBy, 
+      createDate, lastUpdateBy, lastUpdateDate
+      )
+    values (#{id,jdbcType=BIGINT}, #{customerNumber,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, 
+      #{corporateName,jdbcType=VARCHAR}, #{corporateAddress,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{contactsTel,jdbcType=VARCHAR}, #{contactsEmail,jdbcType=VARCHAR}, #{isEffective,jdbcType=BIT}, 
+      #{introduction,jdbcType=VARCHAR}, #{invoiceCustomerName,jdbcType=VARCHAR}, #{taxPayerIdentificationNum,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
+      #{bankAccount,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, #{createdBy,jdbcType=BIGINT}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateBy,jdbcType=BIGINT}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.Client">
+    insert into client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerNumber != null">
+        customerNumber,
+      </if>
+      <if test="isDel != null">
+        isDel,
+      </if>
+      <if test="corporateName != null">
+        corporateName,
+      </if>
+      <if test="corporateAddress != null">
+        corporateAddress,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="contactsTel != null">
+        contactsTel,
+      </if>
+      <if test="contactsEmail != null">
+        contactsEmail,
+      </if>
+      <if test="isEffective != null">
+        isEffective,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="invoiceCustomerName != null">
+        invoiceCustomerName,
+      </if>
+      <if test="taxPayerIdentificationNum != null">
+        taxPayerIdentificationNum,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="bank != null">
+        bank,
+      </if>
+      <if test="bankAccount != null">
+        bankAccount,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="createdBy != null">
+        createdBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerNumber != null">
+        #{customerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="corporateName != null">
+        #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateAddress != null">
+        #{corporateAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsTel != null">
+        #{contactsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsEmail != null">
+        #{contactsEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="isEffective != null">
+        #{isEffective,jdbcType=BIT},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceCustomerName != null">
+        #{invoiceCustomerName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxPayerIdentificationNum != null">
+        #{taxPayerIdentificationNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.Client">
+    update client
+    <set>
+      <if test="customerNumber != null">
+        customerNumber = #{customerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        isDel = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="corporateName != null">
+        corporateName = #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateAddress != null">
+        corporateAddress = #{corporateAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsTel != null">
+        contactsTel = #{contactsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsEmail != null">
+        contactsEmail = #{contactsEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="isEffective != null">
+        isEffective = #{isEffective,jdbcType=BIT},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceCustomerName != null">
+        invoiceCustomerName = #{invoiceCustomerName,jdbcType=VARCHAR},
+      </if>
+      <if test="taxPayerIdentificationNum != null">
+        taxPayerIdentificationNum = #{taxPayerIdentificationNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        bankAccount = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="createdBy != null">
+        createdBy = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateBy != null">
+        lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.Client">
+    update client
+    set customerNumber = #{customerNumber,jdbcType=VARCHAR},
+      isDel = #{isDel,jdbcType=BIT},
+      corporateName = #{corporateName,jdbcType=VARCHAR},
+      corporateAddress = #{corporateAddress,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      contactsTel = #{contactsTel,jdbcType=VARCHAR},
+      contactsEmail = #{contactsEmail,jdbcType=VARCHAR},
+      isEffective = #{isEffective,jdbcType=BIT},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      invoiceCustomerName = #{invoiceCustomerName,jdbcType=VARCHAR},
+      taxPayerIdentificationNum = #{taxPayerIdentificationNum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      bankAccount = #{bankAccount,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      createdBy = #{createdBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateBy = #{lastUpdateBy,jdbcType=BIGINT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
