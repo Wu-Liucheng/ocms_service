@@ -16,6 +16,8 @@ public interface SignUpInfoMapper {
 
     List<SignUpInfo> selectByUserId(Long userId);
 
+    List<SignUpInfo> selectForChecker(Long checkerId);
+
     int getNumberOfSignUp(Long demandId);
 
     int updateByPrimaryKeySelective(SignUpInfo record);

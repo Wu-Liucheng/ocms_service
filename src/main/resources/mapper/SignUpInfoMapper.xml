@@ -10,6 +10,7 @@
     <result column="lastUpdateBy" jdbcType="BIGINT" property="lastUpdateBy" />
     <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
     <association property="demand" column="demandId" select="com.ocms.dao.DemandMapper.selectByPrimaryKey" />
+    <association property="resume" column="userId" select="com.ocms.dao.ResumeMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     userId, demandId, status, createdBy, createDate, lastUpdateBy, lastUpdateDate
@@ -30,6 +31,15 @@
     select * from signup
     where userId = #{userId,jdbcType=BIGINT}
     and status = 1 order by createDate desc
+  </select>
+  <select id="selectForChecker" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from signup where status = 1 and demandId in (
+    select id from demand where objectId in (
+    select id from object where clientId in (
+    select clientId from processnode where checkerId = #{checkerId,jdbcType = BIGINT}))
+    )
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.ocms.entities.SignUpInfoKey">
     delete from signup

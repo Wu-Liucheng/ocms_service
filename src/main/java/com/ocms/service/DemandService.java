@@ -22,4 +22,6 @@ public interface DemandService {
     Demand getById(Long id);
 
     ReturnDataAndInfo updateByChecker(MessageFromCheckerToManager messageFromCheckerToManager);
+
+    Map<String,Object> getSignUpInfoForChecker(Long checkerId,Integer pageCode);
 }

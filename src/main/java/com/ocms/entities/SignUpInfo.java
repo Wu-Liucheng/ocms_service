@@ -15,6 +15,16 @@ public class SignUpInfo extends SignUpInfoKey {
 
     private Demand demand;
 
+    private Resume resume;
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
     public Demand getDemand() {
         return demand;
     }
@@ -77,6 +87,29 @@ public class SignUpInfo extends SignUpInfoKey {
         this.createDate = createDate;
         this.lastUpdateBy = lastUpdateBy;
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public SignUpInfo(Long userId, Long demandId, Integer status, Long createdBy, Date createDate, Long lastUpdateBy, Date lastUpdateDate, Demand demand, Resume resume) {
+        super(userId, demandId);
+        this.status = status;
+        this.createdBy = createdBy;
+        this.createDate = createDate;
+        this.lastUpdateBy = lastUpdateBy;
+        this.lastUpdateDate = lastUpdateDate;
+        this.demand = demand;
+        this.resume = resume;
+    }
+
+
+
+    public SignUpInfo(Integer status, Long createdBy, Date createDate, Long lastUpdateBy, Date lastUpdateDate, Demand demand, Resume resume) {
+        this.status = status;
+        this.createdBy = createdBy;
+        this.createDate = createDate;
+        this.lastUpdateBy = lastUpdateBy;
+        this.lastUpdateDate = lastUpdateDate;
+        this.demand = demand;
+        this.resume = resume;
     }
 
     public SignUpInfo(Integer status, Long createdBy, Date createDate, Long lastUpdateBy, Date lastUpdateDate) {

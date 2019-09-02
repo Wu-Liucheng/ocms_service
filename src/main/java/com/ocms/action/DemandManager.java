@@ -71,4 +71,12 @@ public class DemandManager {
     {
         return demandService.updateByChecker(messageFromCheckerToManager);
     }
+
+    @RequestMapping(value = "/get-sign-up-data")
+    @ResponseBody
+    public Map<String,Object> getSignUpInfo(@RequestParam(value = "checkerId") Long checkerId,
+                                            @RequestParam(value = "pageCode") Integer pageCode){
+        return demandService.getSignUpInfoForChecker(checkerId,pageCode);
+    }
+
 }

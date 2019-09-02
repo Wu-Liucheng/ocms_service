@@ -344,4 +344,54 @@ public class DemandServiceImpl implements DemandService {
             }
         }
     }
+
+    @Override
+    public Map<String, Object> getSignUpInfoForChecker(Long checkerId, Integer pageCode) {
+        List<SignUpInfo> signUpInfos = signUpInfoMapper.selectForChecker(checkerId);
+        int total = signUpInfos.size();
+        int totalPages = (total-1)/6+1;
+        if(pageCode > totalPages)
+            pageCode = totalPages;
+        if(pageCode < 1)
+            pageCode = 1;
+        List<SignUpInfoForChecker> data = new ArrayList<>(6);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = (pageCode - 1) * 6; i < pageCode * 6; i++){
+            if(i == signUpInfos.size())
+                break;
+            SignUpInfo signUpInfo = signUpInfos.get(i);
+            Demand demand  = signUpInfo.getDemand();
+            Resume resume = signUpInfo.getResume();
+            String jobYears = demand.getEmployTime();
+            if(jobYears.equals("0")){
+                jobYears = "不限";
+            }
+            else if(jobYears.equals("1")){
+                jobYears = "应届生";
+            }
+            else if(jobYears.equals("2")){
+                jobYears = "1-3年";
+            }
+            else if(jobYears.equals("3")){
+                jobYears = "4-6年";
+            }
+            else if(jobYears.equals("4")){
+                jobYears="7-10年";
+            }
+            else if(jobYears.equals("5")){
+                jobYears="10年以上";
+            }
+            SignUpInfoForChecker signUpInfoForChecker = new SignUpInfoForChecker(
+                    ""+i,demand.getId(),demand.getName(),demand.getNumber(),demand.getModular(),
+                    jobYears,demand.getWorkAddress(),demand.getStartDate()==null?"":sdf.format(demand.getStartDate()),
+                    demand.getCycle(),demand.getPrice(),demand.getPriceUnit(),demand.getObjectId(),resume.getId(),resume.getName()
+            );
+            data.add(signUpInfoForChecker);
+        }
+        Map<String,Object> ret = new HashMap<>();
+        ret.put("success",true);
+        ret.put("data",data);
+        ret.put("total",total);
+        return ret;
+    }
 }
