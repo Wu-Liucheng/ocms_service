@@ -78,7 +78,7 @@ public class DemandServiceImpl implements DemandService {
         else detailDemandInfo.setSignUp(true);
         detailDemandInfo.setNumSignUp(signUpInfoMapper.getNumberOfSignUp(demandId));
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        detailDemandInfo.setReleaseTime(format.format(demand.getReleaseTime()));
+        detailDemandInfo.setReleaseTime(format.format(demand.getReleaseTime()==null?new Date():demand.getReleaseTime()));
         if(demand.getProject() == null){
             detailDemandInfo.setProjectName(null);
         }
