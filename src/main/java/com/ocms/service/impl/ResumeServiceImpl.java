@@ -1,12 +1,16 @@
 package com.ocms.service.impl;
 
+import com.ocms.dao.CommentOnUserMapper;
 import com.ocms.dao.ResumeMapper;
 import com.ocms.dao.UserInfoMapper;
+import com.ocms.entities.CommentOnUser;
 import com.ocms.entities.Consultant;
 import com.ocms.entities.Resume;
 import com.ocms.service.ResumeService;
 import com.ocms.service.UserInfoService;
+import com.ocms.util.EntityToHashMapUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -23,6 +27,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Resource
     UserInfoMapper userInfoMapper;
+
+    @Resource
+    private CommentOnUserMapper commentOnUserMapper;
 
     @Override
     public int addResume(Resume resume) {
@@ -67,5 +74,14 @@ public class ResumeServiceImpl implements ResumeService {
         int res1 = resumeMapper.deleteByPrimaryKey(id);
         int res2 = userInfoMapper.deleteByPrimaryKey(id);
         return res1+res2;
+    }
+
+    @Override
+    public Map<String, Object> getConsultantForChecker(Long id) {
+        Resume resume = resumeMapper.selectByPrimaryKey(id);
+        List<CommentOnUser> comments = commentOnUserMapper.getCommentOnAUser(id);
+        Map<String,Object> ret = EntityToHashMapUtil.transfer(resume);
+        ret.put("comments",comments);
+        return ret;
     }
 }

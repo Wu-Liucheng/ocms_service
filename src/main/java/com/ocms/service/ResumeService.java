@@ -14,4 +14,6 @@ public interface ResumeService {
     int saveResume(Resume resume);
 
     int deleteConsultantInfo(Long id);
+
+    Map<String,Object> getConsultantForChecker(Long id);
 }

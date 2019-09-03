@@ -192,4 +192,10 @@ public class ResumeManager {
         DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// CustomDateEditor为自定义日期编辑器
     }
+
+    @RequestMapping(value = "/resume-for-checker",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> resumeForChecker(@RequestParam(value = "resumeId") Long resumeId){
+        return resumeService.getConsultantForChecker(resumeId);
+    }
 }

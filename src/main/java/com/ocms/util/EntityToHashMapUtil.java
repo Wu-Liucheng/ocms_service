@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class EntityToHashMapUtil {
-    public static HashMap transfer(Object obj)
+    public static HashMap<String,Object> transfer(Object obj)
     {
         HashMap<String,Object> res = new HashMap<>();
         Class<?> clazz = obj.getClass();
