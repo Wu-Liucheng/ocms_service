@@ -58,6 +58,13 @@ public class DemandManager {
         return demandService.getDemandApplyForChecker(checkerId,pageCode);
     }
 
+    @RequestMapping(value = "/get-demand-apply-by-checker-id-close-modular",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getDemandApplyCloseModular(@RequestParam(value="id") Long checkerId,
+                                             @RequestParam(value="pageCode") Integer pageCode){
+        return demandService.getDemandApplyForCheckerCloseModular(checkerId,pageCode);
+    }
+
     @RequestMapping(value = "/get-demand-info-by-id",method = RequestMethod.GET)
     @ResponseBody
     public Demand getById(@RequestParam(value = "id") Long id)
@@ -77,6 +84,21 @@ public class DemandManager {
     public Map<String,Object> getSignUpInfo(@RequestParam(value = "checkerId") Long checkerId,
                                             @RequestParam(value = "pageCode") Integer pageCode){
         return demandService.getSignUpInfoForChecker(checkerId,pageCode);
+    }
+
+    @RequestMapping(value = "/change-demand-status",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo changeStatus(@RequestParam(value = "checkerId") Long checkerId,
+                                          @RequestParam(value = "demandId") Long demandId,
+                                          @RequestParam(value = "status") Boolean status){
+        return demandService.changeStatus(checkerId, demandId, status);
+    }
+
+    @RequestMapping(value = "/delete-demand",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo delete(@RequestParam(value = "checkerId") Long checkerId,
+                                    @RequestParam(value = "demandId") Long demandId){
+        return demandService.deleteDemand(checkerId,demandId);
     }
 
 }

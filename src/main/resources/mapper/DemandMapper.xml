@@ -64,7 +64,12 @@
     order by releaseTime desc
   </select>
   <select id="getDemandApplyForChecker" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select * from demand where objectId in (
+    select * from demand where examineStatus=0 and objectId in (
+    select id from object where clientId in (
+    select clientId from processnode where checkerId = #{checkerId,jdbcType = BIGINT}))
+  </select>
+  <select id="getDemandApplyForCheckerCloseModular" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from demand where  objectId in (
     select id from object where clientId in (
     select clientId from processnode where checkerId = #{checkerId,jdbcType = BIGINT}))
   </select>

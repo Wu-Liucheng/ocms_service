@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -289,6 +290,56 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    public Map<String, Object> getDemandApplyForCheckerCloseModular(Long checkerId, Integer pageCode) {
+        List<Demand> demands = demandMapper.getDemandApplyForCheckerCloseModular(checkerId);
+        int total = demands.size();
+        int totalPages = (total-1)/6+1;
+        if(pageCode>totalPages)
+            pageCode = totalPages;
+        if(pageCode < 1)
+            pageCode = 1;
+        List<DemandForCheckerCloseModular> data = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for(int i = (pageCode-1)*6; i < pageCode*6; i++){
+            if(i == demands.size())
+                break;
+            Demand demand = demands.get(i);
+            String jobYears = demand.getEmployTime();
+            if(jobYears.equals("0")){
+                jobYears = "不限";
+            }
+            else if(jobYears.equals("1")){
+                jobYears = "应届生";
+            }
+            else if(jobYears.equals("2")){
+                jobYears = "1-3年";
+            }
+            else if(jobYears.equals("3")){
+                jobYears = "4-6年";
+            }
+            else if(jobYears.equals("4")){
+                jobYears="7-10年";
+            }
+            else if(jobYears.equals("5")){
+                jobYears="10年以上";
+            }
+            Boolean isOpened = demand.getStatus().equals(1);
+            DemandForCheckerCloseModular demandForChecker = new DemandForCheckerCloseModular(
+                    demand.getId().toString(),demand.getId(),demand.getName(),
+                    demand.getNumber(),demand.getExamineStatus()==0?"待审核":demand.getExamineStatus()==1?"已发布":"审核拒绝",
+                    demand.getModular(),jobYears,demand.getWorkAddress(),demand.getStartDate()==null?"":sdf.format(demand.getStartDate()),
+                    demand.getCycle(),demand.getPrice(),demand.getPriceUnit(),demand.getObjectId(),isOpened);
+            data.add(demandForChecker);
+
+        }
+        Map<String,Object> ret = new HashMap<>();
+        ret.put("success",true);
+        ret.put("data",data);
+        ret.put("total",total);
+        return ret;
+    }
+
+    @Override
     public Demand getById(Long id) {
         return demandMapper.selectByPrimaryKey(id);
     }
@@ -393,5 +444,43 @@ public class DemandServiceImpl implements DemandService {
         ret.put("data",data);
         ret.put("total",total);
         return ret;
+    }
+
+
+    @Override
+    public ReturnDataAndInfo changeStatus(Long checkerId, Long demandId, Boolean status) {
+        Demand demand  = new Demand();
+        demand.setId(demandId);
+        demand.setLastUpdateDate(new Date());
+        demand.setLastUpdateBy(checkerId);
+        demand.setStatus(status?1:0);
+        int ret = demandMapper.updateByPrimaryKeySelective(demand);
+        if(ret>0)
+        {
+            return new ReturnDataAndInfo(true,"");
+        }
+        else {
+            return new ReturnDataAndInfo(false,"操作失败！");
+        }
+    }
+
+    @Override
+    public ReturnDataAndInfo deleteDemand(Long checkerId, Long demandId) {
+        List<Demand> demands = demandMapper.getDemandApplyForCheckerCloseModular(checkerId);
+        List<Demand> demands1= demands.stream().filter((Demand demand)->
+            demand.getId().equals(demandId)
+        ).collect(Collectors.toList());
+        if(demands1.size()>0){
+            int ret = demandMapper.deleteByPrimaryKey(demandId);
+            if(ret>0){
+                return new ReturnDataAndInfo(true,"");
+            }
+            else {
+                return new ReturnDataAndInfo(false,"删除失败！");
+            }
+        }
+        else {
+            return new ReturnDataAndInfo(false,"非法操作！");
+        }
     }
 }

@@ -30,4 +30,6 @@ public interface DemandMapper {
     Demand selectByNumber(String number);
 
     List<Demand> getDemandApplyForChecker(Long checkerId);
+
+    List<Demand> getDemandApplyForCheckerCloseModular(Long checkerId);
 }

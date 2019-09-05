@@ -18,10 +18,15 @@ public interface DemandService {
     ReturnDataAndInfo addDemand(Demand demand);
 
     Map<String,Object> getDemandApplyForChecker(Long checkerId,Integer pageCode);
+    Map<String,Object> getDemandApplyForCheckerCloseModular(Long checkerId,Integer pageCode);
 
     Demand getById(Long id);
 
     ReturnDataAndInfo updateByChecker(MessageFromCheckerToManager messageFromCheckerToManager);
 
     Map<String,Object> getSignUpInfoForChecker(Long checkerId,Integer pageCode);
+
+    ReturnDataAndInfo changeStatus(Long checkerId,Long demandId,Boolean status);
+
+    ReturnDataAndInfo deleteDemand(Long checkerId,Long demandId);
 }
