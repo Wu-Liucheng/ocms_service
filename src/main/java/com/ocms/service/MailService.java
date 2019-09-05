@@ -15,6 +15,8 @@ public interface MailService {
      */
     public void sendMail(String to, String subject, String verifyCode);
 
+    public void sendEmail(String to,String subject,String content);
+
     public int insertIntoCheckEmail(CheckEmail record);
 
     CheckEmail findByEmailAndVerifyCode(String email, String code);

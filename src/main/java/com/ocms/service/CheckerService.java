@@ -6,4 +6,8 @@ public interface CheckerService {
     ReturnDataAndInfo verifyIsLegal(String loginName, String password);
 
     Long getIdByLoginName(String loginName);
+
+    ReturnDataAndInfo checkAction(Boolean isPassed,Long userId,String username,
+                                  Long demandId,Long objectId,Long checkerId,
+                                  String content);
 }

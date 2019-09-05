@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ocms.dao.UserBindToDemandMapper">
+  <resultMap id="BaseResultMap" type="com.ocms.entities.UserBindToDemand">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="demandId" jdbcType="BIGINT" property="demandId" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="createBy" jdbcType="BIGINT" property="createBy" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, demandId, userId, status, createBy, createDate, lastUpdateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from userbindtodemand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findUserIsBeingUsed" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from userbindtodemand
+    where userId = #{userId,jdbcType=BIGINT} and status = 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from userbindtodemand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ocms.entities.UserBindToDemand">
+    insert into userbindtodemand (id, demandId, userId, 
+      status, createBy, createDate, 
+      lastUpdateDate)
+    values (#{id,jdbcType=BIGINT}, #{demandId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{status,jdbcType=BIT}, #{createBy,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ocms.entities.UserBindToDemand">
+    insert into userbindtodemand
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="demandId != null">
+        demandId,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createBy != null">
+        createBy,
+      </if>
+      <if test="createDate != null">
+        createDate,
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="demandId != null">
+        #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ocms.entities.UserBindToDemand">
+    update userbindtodemand
+    <set>
+      <if test="demandId != null">
+        demandId = #{demandId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        createBy = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createDate != null">
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateDate != null">
+        lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ocms.entities.UserBindToDemand">
+    update userbindtodemand
+    set demandId = #{demandId,jdbcType=BIGINT},
+      userId = #{userId,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIT},
+      createBy = #{createBy,jdbcType=BIGINT},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
