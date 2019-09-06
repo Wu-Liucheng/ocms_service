@@ -2,6 +2,9 @@ package com.ocms.dao;
 
 import com.ocms.entities.UserBindToDemand;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserBindToDemandMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +19,8 @@ public interface UserBindToDemandMapper {
     int updateByPrimaryKeySelective(UserBindToDemand record);
 
     int updateByPrimaryKey(UserBindToDemand record);
+
+    int countOfOneChecker(Long checkerId);
+
+    List<UserBindToDemand> selectForOneChecker(Map map);
 }

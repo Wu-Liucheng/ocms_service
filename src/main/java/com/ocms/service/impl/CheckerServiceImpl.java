@@ -34,6 +34,9 @@ public class CheckerServiceImpl implements CheckerService {
     private DemandMapper demandMapper;
 
     @Resource
+    private ResumeMapper resumeMapper;
+
+    @Resource
     private UserBindToDemandMapper userBindToDemandMapper;
 
     @Resource
@@ -69,6 +72,8 @@ public class CheckerServiceImpl implements CheckerService {
             if(ret1>0){
                 UserBindToDemand u = userBindToDemandMapper.findUserIsBeingUsed(userId);
                 if(u!=null){
+                    SignUpInfo signUpInfo1 = new SignUpInfo(userId,demandId,1,null,null,checkerId,new Date());
+                    signUpInfoMapper.updateByPrimaryKeySelective(signUpInfo);
                     return new ReturnDataAndInfo(false,"该顾问仍在任用中，如需继续，请更改顾问状态。");
                 }
                 else {
@@ -87,6 +92,8 @@ public class CheckerServiceImpl implements CheckerService {
                             message.setText(content);
                             mailSender.send(message);
                         }).run();
+                        Resume resume = new Resume(userId,true);
+                        resumeMapper.updateByPrimaryKeySelective(resume);
                         return new ReturnDataAndInfo(true,"");
                     }
                     else {

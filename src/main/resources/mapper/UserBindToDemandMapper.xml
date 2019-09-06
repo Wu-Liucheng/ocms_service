@@ -9,6 +9,8 @@
     <result column="createBy" jdbcType="BIGINT" property="createBy" />
     <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
     <result column="lastUpdateDate" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <association property="resume" column="userId" select="com.ocms.dao.ResumeMapper.selectByPrimaryKey"></association>
+    <association property="demand" column="demandId" select="com.ocms.dao.DemandMapper.selectByPrimaryKey"></association>
   </resultMap>
   <sql id="Base_Column_List">
     id, demandId, userId, status, createBy, createDate, lastUpdateDate
@@ -24,6 +26,16 @@
     <include refid="Base_Column_List" />
     from userbindtodemand
     where userId = #{userId,jdbcType=BIGINT} and status = 1
+  </select>
+  <select id="countOfOneChecker" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select count(id) from userbindtodemand where status = 1 and createBy = #{checkerId,jdbcType=BIGINT};
+  </select>
+  <select id="selectForOneChecker" parameterType="Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from userbindtodemand
+    where status = 1 and createBy = #{checkerId,jdbcType = BIGINT}
+    limit #{start,jdbcType = INTEGER},6
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from userbindtodemand

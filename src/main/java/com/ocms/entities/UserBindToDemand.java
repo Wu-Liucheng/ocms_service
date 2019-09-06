@@ -1,5 +1,6 @@
 package com.ocms.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserBindToDemand {
@@ -16,6 +17,38 @@ public class UserBindToDemand {
     private Date createDate;
 
     private Date lastUpdateDate;
+
+    private Resume resume;
+
+    private Demand demand;
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public void setDemand(Demand demand) {
+        this.demand = demand;
+    }
+
+    public UserBindToDemand(Long id, Long demandId, Long userId, Boolean status, Long createBy, Date createDate, Date lastUpdateDate, Resume resume, Demand demand) {
+        this.id = id;
+        this.demandId = demandId;
+        this.userId = userId;
+        this.status = status;
+        this.createBy = createBy;
+        this.createDate = createDate;
+        this.lastUpdateDate = lastUpdateDate;
+        this.resume = resume;
+        this.demand = demand;
+    }
 
     public Long getId() {
         return id;
@@ -74,6 +107,16 @@ public class UserBindToDemand {
     }
 
     public UserBindToDemand(Long id, Long demandId, Long userId, Boolean status, Long createBy, Date createDate, Date lastUpdateDate) {
+        this.id = id;
+        this.demandId = demandId;
+        this.userId = userId;
+        this.status = status;
+        this.createBy = createBy;
+        this.createDate = createDate;
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public UserBindToDemand(Long id, Long demandId, Long userId, Boolean status, Long createBy, Timestamp createDate, Timestamp lastUpdateDate) {
         this.id = id;
         this.demandId = demandId;
         this.userId = userId;

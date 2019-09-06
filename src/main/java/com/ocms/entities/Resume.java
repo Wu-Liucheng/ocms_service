@@ -346,4 +346,9 @@ public class Resume {
         this.location = location;
         this.otherInfo = otherInfo;
     }
+
+    public Resume(Long id, Boolean isBeingUsed) {
+        this.id = id;
+        this.isBeingUsed = isBeingUsed;
+    }
 }
