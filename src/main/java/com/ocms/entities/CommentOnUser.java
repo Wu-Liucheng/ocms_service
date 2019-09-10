@@ -112,4 +112,13 @@ public class CommentOnUser {
         this.createDate = createDate;
         this.clientId = clientId;
     }
+
+    public CommentOnUser(Long managerId, Long userId, String comment) {
+        this.managerId = managerId;
+        this.userId = userId;
+        this.comment = comment;
+    }
+
+    public CommentOnUser() {
+    }
 }

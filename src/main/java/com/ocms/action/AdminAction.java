@@ -50,4 +50,10 @@ public class AdminAction {
     public Map<String,Object> getConsultants(@RequestParam(value = "pageCode") Integer pageCode){
         return resumeService.getOnePageConsultantInfo(pageCode);
     }
+
+    @RequestMapping(value = "/get-manager-id",method = RequestMethod.POST)
+    @ResponseBody
+    public Long getManagerId(@RequestParam(value = "username") String username){
+        return managerService.getIdByUsername(username);
+    }
 }

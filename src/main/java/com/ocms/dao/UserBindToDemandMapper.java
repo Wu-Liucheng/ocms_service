@@ -26,4 +26,6 @@ public interface UserBindToDemandMapper {
     int countOfOneChecker(Long checkerId);
 
     List<UserBindToDemand> selectForOneChecker(Map map);
+
+    List<UserBindToDemand> selectForOneManager(Long managerId);
 }

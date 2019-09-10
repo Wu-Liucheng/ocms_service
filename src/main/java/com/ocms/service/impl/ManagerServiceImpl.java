@@ -23,4 +23,13 @@ public class ManagerServiceImpl implements ManagerService {
                 return new ReturnDataAndInfo(true,"");
         return new ReturnDataAndInfo(false,"用户名或密码错误");
     }
+
+    @Override
+    public Long getIdByUsername(String username) {
+        Manager manager = managerMapper.selectByLoginName(username);
+        if(manager == null)
+            return null;
+        else
+            return manager.getId();
+    }
 }
