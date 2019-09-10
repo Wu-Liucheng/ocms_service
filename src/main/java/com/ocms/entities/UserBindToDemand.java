@@ -125,4 +125,12 @@ public class UserBindToDemand {
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
     }
+
+    public UserBindToDemand() {
+    }
+
+    public UserBindToDemand(Long demandId, Long userId) {
+        this.demandId = demandId;
+        this.userId = userId;
+    }
 }

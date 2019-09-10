@@ -132,4 +132,11 @@
       lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateByDemandIdAndUserId" parameterType="com.ocms.entities.UserBindToDemand">
+    update userbindtodemand
+    set
+      status = #{status,jdbcType=BIT},
+      lastUpdateDate = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where demandId = #{demandId,jdbcType=BIGINT} and userId = #{userId,jdbcType=BIGINT}
+  </update>
 </mapper>

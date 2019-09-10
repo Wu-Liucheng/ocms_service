@@ -1,12 +1,12 @@
 package com.ocms.action;
 
 
+import com.ocms.entities.Resume;
+import com.ocms.entities.ReturnDataAndInfo;
+import com.ocms.entities.UserBindToDemand;
 import com.ocms.service.UserBindToDemandService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -23,6 +23,24 @@ public class ConsultantStatusAction {
                                             @RequestParam(value = "pageCode") Integer pageCode){
 
         return userBindToDemandService.getUserStatusForChecker(checkerId,pageCode);
+    }
+
+    @RequestMapping(value = "/consultant-status",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> consultantStatus(@RequestParam(value = "id") Long resumeId){
+        return userBindToDemandService.getStatus(resumeId);
+    }
+
+    @RequestMapping(value = "/update-consultant-status",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo updateStatus(@RequestBody Resume resume){
+        return userBindToDemandService.updateConsultantStatus(resume);
+    }
+
+    @RequestMapping(value = "/relation-is-over",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo over(@RequestBody UserBindToDemand userBindToDemand){
+        return userBindToDemandService.relationIsOver(userBindToDemand);
     }
 
 }

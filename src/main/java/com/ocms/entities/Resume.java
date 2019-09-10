@@ -351,4 +351,10 @@ public class Resume {
         this.id = id;
         this.isBeingUsed = isBeingUsed;
     }
+
+    public Resume(Long id, Date planDate, Boolean isBeingUsed) {
+        this.id = id;
+        this.planDate = planDate;
+        this.isBeingUsed = isBeingUsed;
+    }
 }

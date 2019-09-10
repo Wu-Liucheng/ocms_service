@@ -59,10 +59,4 @@ public class UserLogin {
             return false;
         }
     }
-
-    @RequestMapping("/")
-    public ModelAndView index(){
-        return new ModelAndView("index.html");
-    }
-
 }

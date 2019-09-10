@@ -16,9 +16,12 @@ public interface UserBindToDemandMapper {
 
     UserBindToDemand findUserIsBeingUsed(Long userId);
 
+
     int updateByPrimaryKeySelective(UserBindToDemand record);
 
     int updateByPrimaryKey(UserBindToDemand record);
+
+    int updateByDemandIdAndUserId(UserBindToDemand record);
 
     int countOfOneChecker(Long checkerId);
 
