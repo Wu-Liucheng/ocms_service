@@ -10,6 +10,8 @@
     <result column="isRead" jdbcType="BIT" property="isRead" />
     <result column="examineStatus" jdbcType="BIT" property="examineStatus" />
     <result column="createDate" jdbcType="TIMESTAMP" property="createDate" />
+    <association property="checker" column="checkerId" select="com.ocms.dao.CheckerMapper.selectByPrimaryKey"/>
+    <association property="demand" column="demandId" select="com.ocms.dao.DemandMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, demandId, checkerId, managerId, content, isRead, examineStatus, createDate
@@ -19,6 +21,12 @@
     <include refid="Base_Column_List" />
     from messagefromcheckertomanager
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForManager" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from messagefromcheckertomanager
+    where managerId = #{managerId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from messagefromcheckertomanager

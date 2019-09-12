@@ -1,5 +1,6 @@
 package com.ocms.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class MessageFromCheckerToManager {
@@ -18,6 +19,34 @@ public class MessageFromCheckerToManager {
     private Boolean examineStatus;
 
     private Date createDate;
+
+    private Demand demand;
+
+    private Checker checker;
+
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
+    }
+
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public void setDemand(Demand demand) {
+        this.demand = demand;
+    }
+
+    public Checker getChecker() {
+        return checker;
+    }
+
+    public void setChecker(Checker checker) {
+        this.checker = checker;
+    }
 
     public Long getId() {
         return id;
@@ -81,5 +110,33 @@ public class MessageFromCheckerToManager {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public MessageFromCheckerToManager(Long id, Long demandId, Long checkerId, Long managerId, String content, Boolean isRead, Boolean examineStatus, Date createDate, Demand demand, Checker checker) {
+        this.id = id;
+        this.demandId = demandId;
+        this.checkerId = checkerId;
+        this.managerId = managerId;
+        this.content = content;
+        this.isRead = isRead;
+        this.examineStatus = examineStatus;
+        this.createDate = createDate;
+        this.demand = demand;
+        this.checker = checker;
+    }
+    public MessageFromCheckerToManager(Long id, Long demandId, Long checkerId, Long managerId, String content, Boolean isRead, Boolean examineStatus, Timestamp createDate, Demand demand, Checker checker) {
+        this.id = id;
+        this.demandId = demandId;
+        this.checkerId = checkerId;
+        this.managerId = managerId;
+        this.content = content;
+        this.isRead = isRead;
+        this.examineStatus = examineStatus;
+        this.createDate = createDate;
+        this.demand = demand;
+        this.checker = checker;
+    }
+
+    public MessageFromCheckerToManager() {
     }
 }
