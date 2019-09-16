@@ -2,6 +2,7 @@ package com.ocms.action;
 
 import com.ocms.entities.ReturnDataAndInfo;
 import com.ocms.service.*;
+import com.ocms.util.MD5Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -55,5 +57,47 @@ public class AdminAction {
     @ResponseBody
     public Long getManagerId(@RequestParam(value = "username") String username){
         return managerService.getIdByUsername(username);
+    }
+
+    @RequestMapping(value = "/get-manager-data",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getManagerData(@RequestParam(value = "pageCode") Integer pageCode,
+                                             @RequestParam(value = "key") String key,
+                                             @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            Map<String,Object> ret = new HashMap<>(1);
+            ret.put("success",false);
+            return ret;
+        }
+        return managerService.getOnePage(pageCode);
+    }
+
+    @RequestMapping(value = "/get-checker-data",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getCheckerData(@RequestParam(value = "pageCode") Integer pageCode,
+                                             @RequestParam(value = "key") String key,
+                                             @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            Map<String,Object> ret = new HashMap<>(1);
+            ret.put("success",false);
+            return ret;
+        }
+        return checkerService.getOnePage(pageCode);
+    }
+
+    @RequestMapping(value = "/get-corporate-admin-data",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getCorporateAdminData(@RequestParam(value = "pageCode") Integer pageCode,
+                                             @RequestParam(value = "key") String key,
+                                             @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            Map<String,Object> ret = new HashMap<>(1);
+            ret.put("success",false);
+            return ret;
+        }
+        return corporationAdminService.getOnePage(pageCode);
     }
 }

@@ -1,19 +1,29 @@
 package com.ocms.service.impl;
 
+import com.ocms.dao.ClientMapper;
 import com.ocms.dao.ManagerMapper;
+import com.ocms.entities.Client;
 import com.ocms.entities.Manager;
+import com.ocms.entities.ManagerToFront;
 import com.ocms.entities.ReturnDataAndInfo;
 import com.ocms.service.ManagerService;
 import com.ocms.util.MD5Util;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
     @Resource
     private ManagerMapper managerMapper;
+
+    @Resource
+    private ClientMapper clientMapper;
 
     @Override
     public ReturnDataAndInfo verifyIsLegal(String loginName, String password) {
@@ -31,5 +41,33 @@ public class ManagerServiceImpl implements ManagerService {
             return null;
         else
             return manager.getId();
+    }
+
+    @Override
+    public Map<String, Object> getOnePage(Integer pageCode) {
+        Map<String,Object> ret = new HashMap<>();
+        int total = managerMapper.count();
+        int totalPage = (total-1)/6+1;
+        if(pageCode<1) pageCode = 1;
+        if(pageCode>totalPage) pageCode = totalPage;
+        List<Manager> managers = managerMapper.selectOnePage((pageCode-1)*6);
+        List<ManagerToFront> data = new ArrayList<>(6);
+        managers.forEach(manager->{
+            Client client = clientMapper.selectByPrimaryKey(manager.getClientId());
+            ManagerToFront d = new ManagerToFront(
+                    null,null,manager.getId(),manager.getLoginName(),manager.getName(),
+                    manager.getEmail(),manager.getMobile(),manager.getClientId(),client.getCorporateName()
+            );
+            data.add(d);
+        });
+        for(int i = 0; i < data.size(); i++){
+            ManagerToFront d = data.get(i);
+            d.setKey(i+1+"");
+            d.setNumber(i+1+"");
+        }
+        ret.put("success",true);
+        ret.put("data",data);
+        ret.put("total",total);
+        return ret;
     }
 }

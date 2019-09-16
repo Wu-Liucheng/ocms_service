@@ -17,6 +17,10 @@ public interface CheckerMapper {
 
     Checker selectByLoginName(String loginName);
 
+    int count();
+
+    List<Checker> selectOnePage(Integer start);
+
     int updateByPrimaryKeySelective(Checker record);
 
     int updateByPrimaryKey(Checker record);

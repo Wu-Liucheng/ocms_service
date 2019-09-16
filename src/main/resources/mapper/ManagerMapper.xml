@@ -32,6 +32,13 @@
   <select id="selectByClientId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id , name from manager where clientId = #{clientId,jdbcType = BIGINT}
   </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(id) from manager
+  </select>
+  <select id="selectOnePage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from manager limit #{start,jdbcType=INTEGER},6
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from manager
     where id = #{id,jdbcType=BIGINT}

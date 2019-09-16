@@ -2,6 +2,7 @@ package com.ocms.dao;
 
 import com.ocms.entities.CorporationAdmin;
 
+import java.util.List;
 import java.util.Map;
 
 public interface CorporationAdminMapper {
@@ -16,6 +17,10 @@ public interface CorporationAdminMapper {
     CorporationAdmin selectByLoginName(String loginName);
 
     CorporationAdmin selectByLoginNameAndClientId(Map map);
+
+    int count();
+
+    List<CorporationAdmin> selectOnePage(Integer start);
 
     int updateByPrimaryKeySelective(CorporationAdmin record);
 

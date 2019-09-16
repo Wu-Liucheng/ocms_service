@@ -30,6 +30,13 @@
   <select id="selectByLoginNameAndClientId" parameterType="Map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from corporationadmin where loginName = #{loginName,jdbcType=VARCHAR} and clientId = #{clientId,jdbcType = BIGINT};
   </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(id) from corporationadmin ;
+  </select>
+  <select id="selectOnePage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from corporationadmin limit #{start,jdbcType=INTEGER},6
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from corporationadmin
     where id = #{id,jdbcType=BIGINT}

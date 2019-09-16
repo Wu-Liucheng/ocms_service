@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.*;
 
 @Service
 public class CheckerServiceImpl implements CheckerService {
@@ -41,6 +41,9 @@ public class CheckerServiceImpl implements CheckerService {
 
     @Resource
     private ProjectMapper projectMapper;
+
+    @Resource
+    private ClientMapper clientMapper;
 
     @Override
     public ReturnDataAndInfo verifyIsLegal(String loginName, String password) {
@@ -124,5 +127,34 @@ public class CheckerServiceImpl implements CheckerService {
                 return new ReturnDataAndInfo(false,"操作失败");
             }
         }
+    }
+
+    @Override
+    public Map<String, Object> getOnePage(Integer pageCode) {
+        Map<String,Object> ret = new HashMap<>();
+        int total = checkerMapper.count();
+        int totalPage = (total-1)/6+1;
+        if(pageCode<1) pageCode=1;
+        if(pageCode>totalPage) pageCode=totalPage;
+        List<Checker> checkers = checkerMapper.selectOnePage((pageCode-1)*6);
+        List<CheckerToFront> data = new ArrayList<>(6);
+        checkers.forEach(checker -> {
+            Client client = clientMapper.selectByPrimaryKey(checker.getClientId());
+            CheckerToFront d = new CheckerToFront(
+                    null,null,checker.getId(),checker.getLoginName(),
+                    checker.getName(),checker.getEmail(),checker.getMobile(),checker.getClientId(),
+                    client==null?null:client.getCorporateName()
+            );
+            data.add(d);
+        });
+        for(int i = 0; i < data.size(); i++){
+            CheckerToFront d = data.get(i);
+            d.setKey(i+1+"");
+            d.setNumber(i+1+"");
+        }
+        ret.put("success",true);
+        ret.put("data",data);
+        ret.put("total",total);
+        return ret;
     }
 }

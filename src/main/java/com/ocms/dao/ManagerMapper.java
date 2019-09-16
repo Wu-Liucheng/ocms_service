@@ -19,5 +19,9 @@ public interface ManagerMapper {
 
     List<Manager> selectByClientId(Long clientId);
 
+    int count();
+
+    List<Manager> selectOnePage(Integer start);
+
     int updateByPrimaryKey(Manager record);
 }
