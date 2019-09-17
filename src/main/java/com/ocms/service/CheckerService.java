@@ -13,4 +13,6 @@ public interface CheckerService {
                                   Long demandId,Long objectId,Long checkerId,
                                   String content);
     Map<String,Object> getOnePage(Integer pageCode);
+
+    ReturnDataAndInfo deleteRole(Long id);
 }

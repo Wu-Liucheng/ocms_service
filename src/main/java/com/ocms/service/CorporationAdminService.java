@@ -8,4 +8,6 @@ public interface CorporationAdminService {
     ReturnDataAndInfo verifyIsLegal(String loginName, String password);
 
     Map<String,Object> getOnePage(Integer pageCode);
+
+    ReturnDataAndInfo deleteRole(Long id);
 }

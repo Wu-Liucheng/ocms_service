@@ -10,4 +10,6 @@ public interface ManagerService {
     Long getIdByUsername(String username);
 
     Map<String,Object> getOnePage(Integer pageCode);
+
+    ReturnDataAndInfo deleteRole(Long id);
 }

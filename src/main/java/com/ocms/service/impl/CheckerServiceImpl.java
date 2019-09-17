@@ -157,4 +157,15 @@ public class CheckerServiceImpl implements CheckerService {
         ret.put("total",total);
         return ret;
     }
+
+    @Override
+    public ReturnDataAndInfo deleteRole(Long id) {
+        int ret = checkerMapper.deleteByPrimaryKey(id);
+        if(ret>0){
+            return new ReturnDataAndInfo(true,"");
+        }
+        else {
+            return new ReturnDataAndInfo(false,"系统错误，删除失败！");
+        }
+    }
 }

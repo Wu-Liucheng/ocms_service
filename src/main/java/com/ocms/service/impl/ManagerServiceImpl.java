@@ -56,7 +56,7 @@ public class ManagerServiceImpl implements ManagerService {
             Client client = clientMapper.selectByPrimaryKey(manager.getClientId());
             ManagerToFront d = new ManagerToFront(
                     null,null,manager.getId(),manager.getLoginName(),manager.getName(),
-                    manager.getEmail(),manager.getMobile(),manager.getClientId(),client.getCorporateName()
+                    manager.getEmail(),manager.getMobile(),manager.getClientId(),client==null?null:client.getCorporateName()
             );
             data.add(d);
         });
@@ -69,5 +69,16 @@ public class ManagerServiceImpl implements ManagerService {
         ret.put("data",data);
         ret.put("total",total);
         return ret;
+    }
+
+    @Override
+    public ReturnDataAndInfo deleteRole(Long id) {
+        int ret = managerMapper.deleteByPrimaryKey(id);
+        if(ret>0){
+            return new ReturnDataAndInfo(true,"");
+        }
+        else {
+            return new ReturnDataAndInfo(false,"系统错误，删除失败！");
+        }
     }
 }

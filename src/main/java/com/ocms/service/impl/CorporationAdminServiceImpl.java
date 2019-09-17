@@ -48,7 +48,7 @@ public class CorporationAdminServiceImpl implements CorporationAdminService {
             CorpAdminToFront d = new CorpAdminToFront(
                     null,null,admin.getId(),admin.getLoginName(),
                     admin.getName(),admin.getEmail(),admin.getMobile(),admin.getClientId(),
-                    client.getCorporateName()
+                    client==null?null:client.getCorporateName()
             );
             data.add(d);
         });
@@ -61,5 +61,16 @@ public class CorporationAdminServiceImpl implements CorporationAdminService {
         ret.put("data",data);
         ret.put("total",total);
         return ret;
+    }
+
+    @Override
+    public ReturnDataAndInfo deleteRole(Long id) {
+        int ret = corporationAdminMapper.deleteByPrimaryKey(id);
+        if(ret>0){
+            return new ReturnDataAndInfo(true,"");
+        }
+        else {
+            return new ReturnDataAndInfo(false,"系统错误，删除失败！");
+        }
     }
 }

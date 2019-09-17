@@ -100,4 +100,38 @@ public class AdminAction {
         }
         return corporationAdminService.getOnePage(pageCode);
     }
+
+    @RequestMapping(value = "/delete-manager",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo deleteManager(@RequestParam(value = "id") Long id,
+                                           @RequestParam(value = "key") String key,
+                                           @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            return new ReturnDataAndInfo(false,"非法操作！");
+        }
+        return managerService.deleteRole(id);
+    }
+    @RequestMapping(value = "/delete-checker",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo deleteChecker(@RequestParam(value = "id") Long id,
+                                           @RequestParam(value = "key") String key,
+                                           @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            return new ReturnDataAndInfo(false,"非法操作！");
+        }
+        return checkerService.deleteRole(id);
+    }
+    @RequestMapping(value = "/delete-corporate-admin",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo deleteCorporateAdmin(@RequestParam(value = "id") Long id,
+                                           @RequestParam(value = "key") String key,
+                                           @RequestParam(value = "value") String value){
+        boolean success = MD5Util.verify(key,value);
+        if(!success){
+            return new ReturnDataAndInfo(false,"非法操作！");
+        }
+        return corporationAdminService.deleteRole(id);
+    }
 }
