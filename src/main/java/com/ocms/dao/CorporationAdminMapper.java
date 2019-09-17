@@ -18,6 +18,8 @@ public interface CorporationAdminMapper {
 
     CorporationAdmin selectByLoginNameAndClientId(Map map);
 
+    CorporationAdmin selectByEmail(String email);
+
     int count();
 
     List<CorporationAdmin> selectOnePage(Integer start);

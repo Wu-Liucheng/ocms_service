@@ -29,6 +29,11 @@
     from manager
     where loginName = #{loginName,jdbcType=VARCHAR}
   </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from manager
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
   <select id="selectByClientId" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select id , name from manager where clientId = #{clientId,jdbcType = BIGINT}
   </select>

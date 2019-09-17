@@ -134,4 +134,23 @@ public class AdminAction {
         }
         return corporationAdminService.deleteRole(id);
     }
+
+    @RequestMapping(value = "/add-admin",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnDataAndInfo addAdmin(@RequestParam(value = "key") String key,
+                                      @RequestParam(value = "value") String value,
+                                      @RequestParam(value = "loginName") String loginName,
+                                      @RequestParam(value = "password") String password,
+                                      @RequestParam(value = "email") String email,
+                                      @RequestParam(value = "phone") String mobile,
+                                      @RequestParam(value = "name") String name,
+                                      @RequestParam(value = "role") Integer role,
+                                      @RequestParam(value = "clientId") Long clientId,
+                                      @RequestParam(value = "operateName") String operateName){
+        boolean legal = MD5Util.verify(key,value);
+        if(!legal){
+            return new ReturnDataAndInfo(false,"非法操作！");
+        }
+        return adminService.addRole(loginName, password, email, mobile, name, role, clientId, operateName);
+    }
 }

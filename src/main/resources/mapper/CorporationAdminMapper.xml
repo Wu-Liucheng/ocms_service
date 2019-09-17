@@ -37,6 +37,9 @@
     select <include refid="Base_Column_List" />
     from corporationadmin limit #{start,jdbcType=INTEGER},6
   </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from corporationadmin where email = #{email,jdbcType=VARCHAR};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from corporationadmin
     where id = #{id,jdbcType=BIGINT}

@@ -15,6 +15,8 @@ public interface ManagerMapper {
 
     Manager selectByLoginName(String loginName);
 
+    Manager selectByEmail(String email);
+
     int updateByPrimaryKeySelective(Manager record);
 
     List<Manager> selectByClientId(Long clientId);

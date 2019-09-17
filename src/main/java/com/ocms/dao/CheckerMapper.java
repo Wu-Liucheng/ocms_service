@@ -17,6 +17,8 @@ public interface CheckerMapper {
 
     Checker selectByLoginName(String loginName);
 
+    Checker selectByEmail(String email);
+
     int count();
 
     List<Checker> selectOnePage(Integer start);

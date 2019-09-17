@@ -33,6 +33,11 @@
     select <include refid="Base_Column_List"/>
     from checker
   </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from checker
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
   <select id="count" resultType="java.lang.Integer">
     select count(id) from checker
   </select>
