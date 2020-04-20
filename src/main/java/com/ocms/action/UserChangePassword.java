@@ -28,8 +28,10 @@ import com.ocms.entities.ReturnDataAndInfo;
 import com.ocms.entities.UserInfo;
 import com.ocms.service.MailService;
 import com.ocms.service.UserInfoService;
+import com.ocms.task.SendMailTask;
 import com.ocms.util.GenerateVerifyCode;
 import com.ocms.util.MD5Util;
+import com.ocms.util.RedisUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,12 @@ public class UserChangePassword {
     @Resource
     MailService mailService;
 
+    @Resource
+    RedisUtil redisUtil;
+
+    @Resource
+    SendMailTask sendMailTask;
+
     @RequestMapping(value = "/send_change_password_verify_code",method = RequestMethod.POST)
     @ResponseBody
     public ReturnDataAndInfo send(@RequestParam("username") String username){
@@ -55,12 +63,14 @@ public class UserChangePassword {
         else {
             String email = userInfo.getEmail();
             String verifyCode = GenerateVerifyCode.generateSixRandom();
-            int res = mailService.insertIntoCheckEmail(new CheckEmail(null,email,verifyCode,0,null,new Date(),null,null));
-            if(res == 0)
+            //int res = mailService.insertIntoCheckEmail(new CheckEmail(null,email,verifyCode,0,null,new Date(),null,null));
+            boolean res = redisUtil.set(email,verifyCode,300);
+            if(!res)
                 return new ReturnDataAndInfo(false,"发生了未知的错误...");
             else {
                 try{
-                    mailService.sendMail(email,"一封来自ocms的验证邮件",verifyCode);
+                    //mailService.sendMail(email,"一封来自ocms的验证邮件",verifyCode);
+                    sendMailTask.send(email,verifyCode);
                     return new ReturnDataAndInfo(true,"验证邮件已发送至"+
                             email.replaceAll("(\\w?)(\\w+)(\\w)(@\\w+\\.[a-z]+(\\.[a-z]+)?)", "$1****$3$4")+
                             "，请及时查看");
@@ -83,17 +93,18 @@ public class UserChangePassword {
         }
         else {
             String email = userInfo.getEmail();
-            CheckEmail checkEmail = mailService.findByEmailAndVerifyCode(email,code);
-            if(checkEmail == null){
+            //CheckEmail checkEmail = mailService.findByEmailAndVerifyCode(email,code);
+            String c =(String)redisUtil.get(email);
+            if(code==null||!code.equals(c)){
                 return new ReturnDataAndInfo(false,"验证码错误");
             }
             else {
-                Date compareDate = new Date(checkEmail.getCreateDate().getTime()+300000);
+                /*Date compareDate = new Date(checkEmail.getCreateDate().getTime()+300000);
                 if(compareDate.getTime() > new Date().getTime()){
                     if(MD5Util.verify(newPwd,userInfo.getPassword())){
                         return new ReturnDataAndInfo(false,"这就是原来的密码...");
                     }
-                    else {
+                    else {*/
                         int res = userInfoService.changePassword(userInfo.getId(),MD5Util.md5(newPwd));
                         if(res > 0){
                             return new ReturnDataAndInfo(true,"修改成功");
@@ -101,11 +112,11 @@ public class UserChangePassword {
                         else {
                             return new ReturnDataAndInfo(false,"修改失败");
                         }
-                    }
+                    /*}
                 }
                 else {
                     return new ReturnDataAndInfo(false,"验证码已过期");
-                }
+                }*/
             }
         }
     }

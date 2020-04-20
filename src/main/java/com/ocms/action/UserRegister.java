@@ -8,8 +8,10 @@ import com.ocms.entities.UserInfo;
 import com.ocms.service.MailService;
 import com.ocms.service.ResumeService;
 import com.ocms.service.UserInfoService;
+import com.ocms.task.SendMailTask;
 import com.ocms.util.GenerateVerifyCode;
 import com.ocms.util.MD5Util;
+import com.ocms.util.RedisUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,11 +28,17 @@ public class UserRegister {
     @Resource
     UserInfoService userInfoService;
 
-    @Resource
-    MailService mailService;
+//    @Resource
+//    MailService mailService;
 
     @Resource
     ResumeService resumeService;
+
+    @Resource
+    SendMailTask sendMailTask;
+
+    @Resource
+    RedisUtil redisUtil;
 
     @RequestMapping(value = "/login_name_is_existed",method = RequestMethod.POST)
     @ResponseBody
@@ -49,14 +57,16 @@ public class UserRegister {
         if(userInfo == null)
         {
             String verifyCode = GenerateVerifyCode.generateSixRandom();
-            int res = mailService.insertIntoCheckEmail(new CheckEmail(null,email,verifyCode,0,null,new Date(),null,null));
-            if(res == 0)
+            //int res = mailService.insertIntoCheckEmail(new CheckEmail(null,email,verifyCode,0,null,new Date(),null,null));
+            boolean res = redisUtil.set(email,verifyCode,300);
+            if(!res)
                 return new ReturnDataAndInfo(false,"发送失败。");
             else
             {
                 try
                 {
-                    mailService.sendMail(email,"一封来自ocms的验证邮件",verifyCode);
+                    //mailService.sendMail(email,"一封来自ocms的验证邮件",verifyCode);
+                    sendMailTask.send(email,verifyCode);
                     return new ReturnDataAndInfo(true,"");
                 }
                 catch (Exception e){
@@ -74,19 +84,20 @@ public class UserRegister {
     @ResponseBody
     public ReturnDataAndInfo check(@RequestParam("email") String email,
                                    @RequestParam("identifyCode") String verifyCode){
-        CheckEmail checkEmail = mailService.findByEmailAndVerifyCode(email,verifyCode);
-        if(checkEmail == null)
+        //CheckEmail checkEmail = mailService.findByEmailAndVerifyCode(email,verifyCode);
+        String code = (String)redisUtil.get(email);
+        if(verifyCode==null||!verifyCode.equals(code))
             return new ReturnDataAndInfo(false,"验证码或者邮箱错误");
         else
         {
-            Date compareDate = new Date(checkEmail.getCreateDate().getTime()+300000);
+            /*Date compareDate = new Date(checkEmail.getCreateDate().getTime()+300000);
             if(compareDate.getTime() > new Date().getTime()){
                 return new ReturnDataAndInfo(true,"");
             }
             else {
                 return new ReturnDataAndInfo(false,"验证码已超时");
-            }
-
+            }*/
+            return new ReturnDataAndInfo(true,"");
         }
     }
 

@@ -1,7 +1,7 @@
 1.运行镜像，设置root账号初始密码（123456），映射本地宿主机端口3306到Docker端口3306。测试过程没有挂载本地数据盘：
 
 ```shell
-docker run -it --rm --name mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 -d mysql 
+docker run -it --rm --name mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 -d mysql --appendonly yes
 ```
 
 2.在容器内登陆Mysql:
@@ -22,3 +22,7 @@ ALTER user 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
 FLUSH PRIVILEGES;
 ```
 
+5.进入容器
+```shell
+docker exec -it mysql bash
+```

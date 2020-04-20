@@ -11,6 +11,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import java.sql.SQLOutput;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class MailServiceImpl implements MailService {
         message.setFrom(from);
         message.setTo(to);
         message.setSubject(subject);
-        message.setText("[ocms]您的验证码是"+verifyCode+",5分钟内有效,请勿泄露。");
+        message.setText("Your verify code is "+verifyCode+"");
         mailSender.send(message);
     }
 

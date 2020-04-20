@@ -5,6 +5,7 @@ import com.ocms.service.MailService;
 import com.ocms.service.UserInfoService;
 import com.ocms.service.impl.UserInfoServiceImpl;
 import com.ocms.util.MD5Util;
+import com.ocms.util.RedisUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +36,5 @@ public class OcmsApplicationTests {
     public void sendSimpleMail() throws Exception {
         System.out.println(MD5Util.md5("admin"));
     }
+
 }
