@@ -1,9 +1,6 @@
 package com.ocms.service.impl;
 
-import com.ocms.dao.DemandMapper;
-import com.ocms.dao.MessageFromCheckerToManagerMapper;
-import com.ocms.dao.ProjectMapper;
-import com.ocms.dao.SignUpInfoMapper;
+import com.ocms.dao.*;
 import com.ocms.entities.*;
 import com.ocms.service.DemandService;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,9 @@ public class DemandServiceImpl implements DemandService {
 
     @Resource
     private ProjectMapper projectMapper;
+
+    @Resource
+    private ResumeMapper resumeMapper;
 
     @Override
     public List<LatestDemandInfo> getLatest() {
@@ -234,6 +234,7 @@ public class DemandServiceImpl implements DemandService {
         {
             return new ReturnDataAndInfo(false,"编号冲突！");
         }
+        demand.setReleaseTime(new Date());
         int ret = demandMapper.insertSelective(demand);
         if(ret>0)
             return new ReturnDataAndInfo(true,"");
@@ -359,6 +360,7 @@ public class DemandServiceImpl implements DemandService {
                 demand.setLastUpdateBy(messageFromCheckerToManager.getCheckerId());
                 demand.setLastUpdateDate(new Date());
                 demand.setStatus(1);
+                demand.setReleaseTime(new Date());
                 int ret1 = demandMapper.updateByPrimaryKeySelective(demand);
                 messageFromCheckerToManager.setCreateDate(new Date());
                 messageFromCheckerToManager.setIsRead(false);
@@ -411,8 +413,9 @@ public class DemandServiceImpl implements DemandService {
             if(i == signUpInfos.size())
                 break;
             SignUpInfo signUpInfo = signUpInfos.get(i);
+            System.out.println("signUp info"+signUpInfo);
             Demand demand  = signUpInfo.getDemand();
-            Resume resume = signUpInfo.getResume();
+            Resume resume = resumeMapper.selectByPrimaryKey(signUpInfo.getUserId());
             String jobYears = demand.getEmployTime();
             if(jobYears.equals("0")){
                 jobYears = "不限";
@@ -432,6 +435,7 @@ public class DemandServiceImpl implements DemandService {
             else if(jobYears.equals("5")){
                 jobYears="10年以上";
             }
+            System.out.println("resume"+resume);
             SignUpInfoForChecker signUpInfoForChecker = new SignUpInfoForChecker(
                     ""+i,demand.getId(),demand.getName(),demand.getNumber(),demand.getModular(),
                     jobYears,demand.getWorkAddress(),demand.getStartDate()==null?"":sdf.format(demand.getStartDate()),

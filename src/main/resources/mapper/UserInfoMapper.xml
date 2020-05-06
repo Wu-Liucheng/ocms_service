@@ -44,7 +44,7 @@
       #{email,jdbcType=VARCHAR}, #{createdBy,jdbcType=BIGINT}, #{lastUpdateBy,jdbcType=BIGINT}, 
       #{lastUpdateDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.ocms.entities.UserInfo">
+  <insert id="insertSelective" parameterType="com.ocms.entities.UserInfo" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into userinfo
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

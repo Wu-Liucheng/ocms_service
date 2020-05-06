@@ -57,6 +57,7 @@ public class ResumeServiceImpl implements ResumeService {
             if(i==resumes.size())
                 break;
             Resume resume = resumes.get(i);
+            System.out.println("resume"+resume);
             consultants.add(new Consultant(String.valueOf(i),resume.getId(),resume.getName(),resume.getGoodAt(),
                     resume.getMobile(),resume.getEmployYears(),resume.getEmail(),resume.getEstimateLevel(),
                     resume.getEmployNumber(),new SimpleDateFormat("yyyy-MM-dd").format(resume.getPlanDate())

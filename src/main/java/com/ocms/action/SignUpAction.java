@@ -30,7 +30,8 @@ public class SignUpAction {
                                     @RequestParam(value = "username") String username){
         Long userId = userInfoService.findByLoginName(username).getId();
         Resume resume = resumeService.getById(userId);
-        if(resume!=null&&resume.getIsBeingUsed()==true)
+        System.out.println(resume);
+        if(resume!=null&&Boolean.TRUE.equals(resume.getIsBeingUsed()))
         {
             return new ReturnDataAndInfo(false,"您已经在被任用中，无法报名！");
         }
